@@ -157,9 +157,9 @@ contract FrogDAO is
     // update the vote count.
     if (support == uint8(VoteType.Against)) {
       proposalvote.againstVotes += weight;
-    } else if (support == uint(VoteType.For)) {
+    } else if (support == uint8(VoteType.For)) {
       proposalvote.forVotes += weight;
-    } else if (support == uint(VoteType.Abstain)) {
+    } else if (support == uint8(VoteType.Abstain)) {
       proposalvote.abstainVotes += weight;
     } else {
       revert("Invalid vote type.");
