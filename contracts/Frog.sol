@@ -4,10 +4,15 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /// @title $FROG, an erc-20 token ///
 /// @author Pradhumna Pancholi, Zach Berwaldt ///
 contract FrogERC20Token is ERC20, ERC20Permit, ERC20Votes {
+
+  // @pradhumna. I added Safemath to shut up the compiler.
+  using SafeMath for uint256;
+
   constructor() ERC20("Frog", "FROG") ERC20Permit("Frog") {}
 
   function mint(address _account, uint256 _amount) external {
@@ -18,13 +23,16 @@ contract FrogERC20Token is ERC20, ERC20Permit, ERC20Votes {
     _burn(msg.sender, _amount);
   }
 
+  // TODO: Why two?
   function burnFrom(address _account, uint256 _amount) public virtual {
     _burnFrom(_account, _amount);
   }
 
+  // TODO: Is this a duplicate?
   function _burnFrom(address _account, uint256 _amount) public virtual {
-    // come back to this.
-    uint256 decreasedAllowance = allowance(_account, msg.sender);
+    // come back to this. allowance is from the ERC20 contract.
+    // it's a map address -> map address -> uint256.
+    uint256 decreasedAllowance = allowance(_account, msg.sender).sub(_amount, "ERC20: burn amount exceeds allowance");
 
     _approve(_account, msg.sender, decreasedAllowance);
     _burn(_account, _amount);
@@ -52,3 +60,6 @@ contract FrogERC20Token is ERC20, ERC20Permit, ERC20Votes {
     super._afterTokenTransfer(_from, _to, _amount);
   }
 }
+
+
+/// @pradhumna.eth: If we're going to create multiple tokens, wouldn't ERC1155 be better?
