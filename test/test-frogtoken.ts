@@ -8,6 +8,7 @@ describe("Frog Token Contract", function () {
   let frogToken: Contract;
   let owner: any;
   let alice: any;
+  let bob: any;
 
   this.beforeEach(async function () {
     Frog = await ethers.getContractFactory("FrogERC20Token");
@@ -36,7 +37,7 @@ describe("Frog Token Contract", function () {
 
   
     it("can transfer tokens between two accounts", async function () {
-      [owner, alice] = await ethers.getSigners();
+      [owner, alice, bob] = await ethers.getSigners();
   
       // inital mint.
       let Tx = await frogToken.mint(owner.address, 1000);
@@ -46,11 +47,15 @@ describe("Frog Token Contract", function () {
       Tx = await frogToken.transfer(alice.address, 50);
       await Tx.wait();
   
+      await frogToken.connect(alice).transfer(bob.address, 25);
+
       const balance = await frogToken.balanceOf(owner.address);
       const aliceBalance = await frogToken.balanceOf(alice.address);
+      const bobBalance = await frogToken.balanceOf(bob.address);
   
       expect(balance.toNumber()).to.equal(950);
-      expect(aliceBalance.toNumber()).to.equal(50);
+      expect(aliceBalance.toNumber()).to.equal(25);
+      expect(bobBalance.toNumber()).to.equal(25);
     });
     
     it("can burn tokens", async function () {
