@@ -6,32 +6,41 @@ import { Signer, Contract } from "ethers";
 describe("Frog DAO contract", function () {
   let FrogDAO;
   let FrogToken;
-  let TimelockController;
+  let FrogController;
   let frogDaoInstance: Contract;
   let frogTokenInstance: Contract;
-  let timelockControllerInstance: Contract;
+  let frogControllerInstance: Contract;
   let owner: any;
   let alice: any;
 
   this.beforeEach(async function () {
     FrogDAO = await ethers.getContractFactory("FrogDAO");
     FrogToken = await ethers.getContractFactory("FrogERC20Token");
-    // Include a timelock controller.
-    // TimelockController = await ethers.getContractFactory("TimelockController");
+    FrogController = await ethers.getContractFactory("FrogTimelockController");
+    
 
     [owner, alice] = await ethers.getSigners();
 
     frogTokenInstance = await FrogToken.deploy();
-    // timelockControllerInstance = await TimelockController.deploy();
-    // frogDaoInstance = await FrogDAO.deploy(frogDaoInstance.address, );
+    frogControllerInstance = await FrogController.deploy(240, [], []);
+    frogDaoInstance = await FrogDAO.deploy(frogTokenInstance.address, frogControllerInstance.address);
   })
 
   // TODO: come back to this, figure out time lock controller first.
-  // describe("Deployment", function() {
+  describe("Deployment", function() {
+    it("should deploy the contract", async function () {
+      expect(frogDaoInstance.address).to.exist;
+    });
+  });
 
-  // });
+  describe("Transactions", function() {
+    it("can create new proposals", async function () {
+      [owner] = await ethers.getSigners();
+      const transferData = frogTokenInstance.interface.encodeFunctionData("transfer", [alice.address, 50]);
+      let Tx = await frogDaoInstance.propose([owner.address],[0], [transferData], "transfer 50 tokens to alice");
+      await Tx.wait();
 
-  // describe("Transactions", function() {
-    
-  // });
+      expect(Tx).to.emit(frogDaoInstance, "ProposalCreated");
+    });
+  });
 })
