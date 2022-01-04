@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "./token/ERC20.sol";
+import "./token/extensions/draft-ERC20Permit.sol";
+import "./token/extensions/ERC20Votes.sol";
+import "./utils/math/SafeMath.sol";
 
 /// @title $FROG, an erc-20 token ///
 /// @author Pradhumna Pancholi, Zach Berwaldt ///
