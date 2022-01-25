@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity ^0.8.0;
 
-import "./IERC20.sol";
+import "../interfaces/IERC20.sol";
 import "../utils/math/SafeMath.sol";
 
 abstract contract ERC20 is IERC20 {

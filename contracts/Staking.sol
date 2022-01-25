@@ -29,7 +29,7 @@ contract Staking is AccessControl {
   bytes32 public constant MEMBER = keccak256("MEMBER_ROLE");
 
   IERC20 public immutable FROG;
-  IERC20 public immutable MONKEE;
+  IMonkee public immutable MONKEE;
 
   constructor(
     address _minter,
@@ -41,7 +41,7 @@ contract Staking is AccessControl {
     require(_frog != address(0), "Zero address: Frog");
     FROG = IERC20(_frog);
     require(_monkee != address(0), "Zero address: Monkee");
-    MONKEE = IERC20(_monkee);
+    MONKEE = IMonkee(_monkee);
   }
 
   /**
