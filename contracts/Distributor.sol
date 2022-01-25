@@ -32,3 +32,5 @@ contract Distributor {
     emit Claimed(account_, amount_);
   }
 }
+
+// reference: https://github.com/steve-ng/merkle-airdrop
