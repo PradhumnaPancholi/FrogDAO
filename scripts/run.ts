@@ -14,12 +14,12 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const FrogToken = await ethers.getContractFactory("FrogERC20Token");
-  const frog = await FrogToken.deploy();
+  const TestToken = await ethers.getContractFactory("TestERC20");
+  const test = await TestToken.deploy();
 
-  await frog.deployed();
+  await test.deployed();
 
-  console.log("Frog Token deployed to:", frog.address);
+  console.log("Frog Token deployed to:", test.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -5,17 +5,18 @@ import "./token/ERC20.sol";
 import "./token/extensions/draft-ERC20Permit.sol";
 import "./token/extensions/ERC20Votes.sol";
 import "./utils/math/SafeMath.sol";
+import "./interfaces/IMonkee.sol";
 
 /// @title $FROG, an erc-20 token ///
 /// @author Pradhumna Pancholi, Zach Berwaldt ///
-contract FrogERC20Token is ERC20, ERC20Permit, ERC20Votes {
+contract MonkeeERC20Token is IMonkee, ERC20, ERC20Permit, ERC20Votes {
 
   // @pradhumna. I added Safemath to shut up the compiler.
   using SafeMath for uint256;
 
-  constructor() ERC20("Frog", "FROG") ERC20Permit("Frog") {}
+  constructor() ERC20("Monkee", "MONKEE") ERC20Permit("Monkee") {}
 
-  function mint(address _account, uint256 _amount) external {
+  function mint(address _account, uint256 _amount) external override {
     _mint(_account, _amount);
   }
 
